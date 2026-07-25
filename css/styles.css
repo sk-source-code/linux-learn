@@ -43,6 +43,33 @@
     --transition-normal: 0.3s ease;
 }
 
+body.light-theme {
+    /* Color Palette */
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --bg-sidebar: #ffffff;
+    
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    
+    --accent-primary: #7c3aed;
+    --accent-secondary: #4f46e5;
+    --accent-tertiary: #8b5cf6;
+    --accent-glow: rgba(124, 58, 237, 0.15);
+    
+    --border-light: #e2e8f0;
+    --border-focus: rgba(124, 58, 237, 0.5);
+    
+    /* Code specific colors (keeping code block dark for readability, but slightly tweaked) */
+    --code-bg: #1e1e2e;
+    --code-text: #a6accd;
+    --code-keyword: #cba6f7;
+    --code-string: #a6e3a1;
+    --code-comment: #6c7086;
+    --code-builtin: #89b4fa;
+}
+
 /* Base Styles */
 * {
     margin: 0;
@@ -117,6 +144,25 @@ a:hover {
     background: linear-gradient(to right, var(--accent-primary), var(--accent-tertiary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    flex-grow: 1;
+}
+
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.theme-toggle-btn:hover {
+    background-color: var(--bg-card);
+    color: var(--accent-primary);
 }
 
 .logo-icon {
@@ -1152,4 +1198,37 @@ a:hover {
         opacity: 1;
         transform: translateY(0);
     }
+}
+/* ==================== Quiz Section ==================== */
+.quiz-option-btn {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-light);
+    color: var(--text-main);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition-fast);
+    font-size: 1rem;
+    font-family: var(--font-mono);
+}
+
+.quiz-option-btn:hover:not(:disabled) {
+    background-color: var(--bg-card-hover);
+    border-color: var(--accent-primary);
+}
+
+.quiz-option-btn.correct {
+    background-color: rgba(39, 201, 63, 0.2);
+    border-color: #27c93f;
+}
+
+.quiz-option-btn.incorrect {
+    background-color: rgba(255, 95, 86, 0.2);
+    border-color: #ff5f56;
+}
+
+.quiz-option-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
 }
