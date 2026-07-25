@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Knowledge Base — Complete Reference Guide</title>
+    <meta name="description" content="A comprehensive guide to Linux commands, kernel architecture, networking, and shell scripting. 100+ commands with syntax, flags, and examples.">
+    <meta property="og:title" content="Linux Knowledge Base">
+    <meta property="og:description" content="Master Linux with the complete reference guide.">
+    
+    <!-- Google Fonts: Inter and JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%238b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>'>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <!-- Mobile Hamburger Menu -->
+    <div class="mobile-nav-toggle" id="mobile-toggle" role="button" aria-label="Toggle mobile menu" aria-expanded="false" tabindex="0">
+        <i data-lucide="menu"></i>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="search-modal">
+        <div class="search-container">
+            <div class="search-header">
+                <i data-lucide="search"></i>
+                <input type="text" id="search-input" placeholder="Search commands, concepts, or flags..." aria-label="Search commands, concepts, or flags">
+                <button id="close-search" aria-label="Close search modal"><i data-lucide="x"></i></button>
+            </div>
+            <div class="search-results" id="search-results">
+                <div class="search-empty">Start typing to search across <strong>100+</strong> commands...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i data-lucide="terminal" class="logo-icon"></i>
+                <span class="sidebar-title">Linux KB</span>
+            </div>
+            
+            <div class="sidebar-search" id="trigger-search" role="button" aria-label="Open search modal" aria-keyshortcuts="Control+K" tabindex="0">
+                <i data-lucide="search"></i>
+                <span>Search...</span>
+                <kbd>Ctrl+K</kbd>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul id="nav-menu">
+                    <li class="nav-item">
+                        <a href="#home" class="active"><i data-lucide="home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#fundamentals"><i data-lucide="book-open"></i> Fundamentals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#commands"><i data-lucide="chevrons-right"></i> Core Commands</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#kernel"><i data-lucide="cpu"></i> The Kernel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#networking"><i data-lucide="globe"></i> Networking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#net-commands"><i data-lucide="wifi"></i> Network Commands</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#filesystems"><i data-lucide="hard-drive"></i> File Systems</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#scripting"><i data-lucide="file-code"></i> Shell Scripting</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#advanced"><i data-lucide="cpu"></i> Advanced Internals</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="cmd-count" id="cmd-count">Loading...</span>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content" id="main-content">
+            
+            <!-- ==================== HERO ==================== -->
+            <section id="home" class="section hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title">Master the <span class="gradient-text">Linux OS</span></h1>
+                    <p class="hero-subtitle">The complete reference guide covering fundamentals, kernel internals, networking, and 100+ essential commands with real-world examples.</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="stat-core">—</span>
+                            <span class="stat-label">Core Commands</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="stat-net">—</span>
+                            <span class="stat-label">Network Commands</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">8</span>
+                            <span class="stat-label">Sections</span>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <a href="#commands" class="btn btn-primary"><i data-lucide="chevrons-right"></i> Explore Commands</a>
+                        <a href="#kernel" class="btn btn-secondary"><i data-lucide="cpu"></i> Kernel Deep Dive</a>
+                    </div>
+                </div>
+                
+                <div class="terminal-container">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot close"></span>
+                            <span class="dot minimize"></span>
+                            <span class="dot expand"></span>
+                        </div>
+                        <div class="terminal-title">user@linux:~</div>
+                    </div>
+                    <div class="terminal-body" id="terminal-body">
+                        <!-- Terminal animation injected here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== FUNDAMENTALS ==================== -->
+            <section id="fundamentals" class="section">
+                <div class="section-header">
+                    <h2><i data-lucide="book-open"></i> Linux Fundamentals</h2>
+                    <p>Understanding the core philosophy and architecture of the world's most powerful operating system.</p>
+                </div>
+                
+                <div class="grid-cards">
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="info"></i></div>
+                        <h3>What is Linux?</h3>
+                        <p>Linux is a family of open-source Unix-like operating systems based on the Linux kernel, first released on September 17, 1991, by Linus Torvalds. It powers everything from smartphones (Android) and supercomputers to web servers and embedded devices. Linux is free, modifiable, and maintained by thousands of contributors worldwide.</p>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="git-compare"></i></div>
+                        <h3>Linux vs Unix vs Windows</h3>
+                        <p>Linux is Unix-like but not Unix — it was written from scratch. Unlike Windows, Linux is open-source, supports multiple desktop environments, and uses a monolithic kernel. Linux dominates in servers (96%+ of the top 1M web servers), cloud infrastructure (AWS, GCP, Azure), and containerization (Docker, Kubernetes).</p>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="layers"></i></div>
+                        <h3>Linux Distributions</h3>
+                        <p>A distribution (distro) bundles the kernel with package managers, desktop environments, and tools. Popular families include:</p>
+                        <ul class="styled-list">
+                            <li><strong>Debian-based</strong> — Ubuntu, Linux Mint, Pop!_OS</li>
+                            <li><strong>Red Hat-based</strong> — Fedora, CentOS, RHEL, Rocky Linux</li>
+                            <li><strong>Arch-based</strong> — Arch Linux, Manjaro, EndeavourOS</li>
+                            <li><strong>Independent</strong> — openSUSE, Gentoo, Slackware</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="grid-cards" style="margin-top: 2rem;">
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="folder-tree"></i></div>
+                        <h3>File System Hierarchy (FHS)</h3>
+                        <p>Everything in Linux is a file, organized in a unified directory tree starting at the root <code>/</code>.</p>
+                        <ul class="styled-list">
+                            <li><code>/bin</code> — Essential user binaries (ls, cp, mv)</li>
+                            <li><code>/sbin</code> — System binaries (fdisk, iptables)</li>
+                            <li><code>/etc</code> — System-wide configuration files</li>
+                            <li><code>/home</code> — User home directories</li>
+                            <li><code>/var</code> — Variable data: logs, mail, spool</li>
+                            <li><code>/tmp</code> — Temporary files (cleared on reboot)</li>
+                            <li><code>/usr</code> — User programs, libraries, docs</li>
+                            <li><code>/proc</code> — Virtual filesystem for process info</li>
+                            <li><code>/dev</code> — Device files (disks, terminals)</li>
+                            <li><code>/opt</code> — Optional third-party software</li>
+                        </ul>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="shield"></i></div>
+                        <h3>Users, Groups & Permissions</h3>
+                        <p>Linux uses a robust permission model controlling access for three entities: <strong>Owner (u)</strong>, <strong>Group (g)</strong>, and <strong>Others (o)</strong>, with three permission types:</p>
+                        <ul class="styled-list">
+                            <li><strong>Read (r / 4)</strong> — View file contents or list directory</li>
+                            <li><strong>Write (w / 2)</strong> — Modify file or create/delete in directory</li>
+                            <li><strong>Execute (x / 1)</strong> — Run file as program or enter directory</li>
+                        </ul>
+                        <div class="code-block" style="margin-top: 1rem;">
+                            <pre><code>-rwxr-xr-- 1 user group 4096 Jan 1 12:00 file.txt
+ │││ │││ │││
+ │││ │││ └── Others: read only
+ │││ └── Group: read + execute
+ └── Owner: read + write + execute</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== CORE COMMANDS ==================== -->
+            <section id="commands" class="section">
+                <div class="section-header">
+                    <h2><i data-lucide="chevrons-right"></i> Essential Linux Commands</h2>
+                    <p>The complete toolkit for navigating and managing your Linux system. Click category buttons to filter.</p>
+                </div>
+                
+                <!-- Category Filter -->
+                <div class="category-filters" id="command-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="files">Files & Dirs</button>
+                    <button class="filter-btn" data-filter="text">Text Processing</button>
+                    <button class="filter-btn" data-filter="permissions">Permissions</button>
+                    <button class="filter-btn" data-filter="process">Processes</button>
+                    <button class="filter-btn" data-filter="disk">Disk & Storage</button>
+                    <button class="filter-btn" data-filter="package">Packages</button>
+                    <button class="filter-btn" data-filter="system">System Info</button>
+                    <button class="filter-btn" data-filter="compress">Compression</button>
+                    <button class="filter-btn" data-filter="users">User Mgmt</button>
+                </div>
+
+                <!-- Command Cards Container -->
+                <div class="commands-grid" id="commands-container">
+                    <!-- Cards injected via JS from coreCommands -->
+                </div>
+            </section>
+
+            <!-- ==================== KERNEL ==================== -->
+            <section id="kernel" class="section">
+                <div class="section-header">
+                    <h2><i data-lucide="cpu"></i> The Linux Kernel</h2>
+                    <p>The core interface between a computer's hardware and its processes — the heart of the operating system.</p>
+                </div>
+
+                <div class="glass-card architecture-card">
+                    <h3>Kernel Architecture</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">The Linux kernel is <strong>monolithic</strong>, meaning all OS services run in kernel space for maximum performance. It supports loadable kernel modules (LKMs) for extensibility without rebooting.</p>
+                    <div class="kernel-diagram">
+                        <div class="layer layer-user">
+                            <span class="layer-title">User Space</span>
+                            <div class="layer-content">Applications · Shell · GNU C Library (glibc) · System Utilities</div>
+                        </div>
+                        <div class="layer-gap">↕ System Calls Interface (syscall)</div>
+                        <div class="layer layer-kernel">
+                            <span class="layer-title">Kernel Space</span>
+                            <div class="kernel-sublayers">
+                                <div class="sublayer">Process Scheduler (CFS)</div>
+                                <div class="sublayer">Memory Manager (VMM)</div>
+                                <div class="sublayer">VFS (Virtual File System)</div>
+                                <div class="sublayer">Network Stack (TCP/IP)</div>
+                            </div>
+                            <div class="kernel-sublayers" style="margin-top: 0.5rem;">
+                                <div class="sublayer">IPC (Pipes, Sockets, Shared Memory)</div>
+                                <div class="sublayer">Security (SELinux, AppArmor)</div>
+                                <div class="sublayer">I/O Schedulers</div>
+                                <div class="sublayer">Loadable Kernel Modules</div>
+                            </div>
+                            <div class="drivers-layer">Device Drivers (Block, Char, Network)</div>
+                        </div>
+                        <div class="layer-gap">↕ Hardware Abstraction Layer (HAL)</div>
+                        <div class="layer layer-hardware">
+                            <span class="layer-title">Hardware</span>
+                            <div class="layer-content">CPU · RAM · Storage Devices · NICs · GPUs · USB · Peripherals</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid-cards">
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="database"></i></div>
+                        <h3>Memory Management</h3>
+                        <p>The kernel manages physical and virtual memory through paging, demand paging, and swap. Each process gets its own virtual address space. The kernel uses a buddy allocator for page frames and slab allocator for kernel objects. OOM (Out of Memory) killer terminates processes when memory is critically low.</p>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="clock"></i></div>
+                        <h3>Process Scheduler (CFS)</h3>
+                        <p>The Completely Fair Scheduler uses a red-black tree to track virtual runtime (vruntime) of each process. It ensures all processes get a fair share of CPU time. Real-time tasks use SCHED_FIFO or SCHED_RR policies. Process states include Running, Sleeping, Stopped, and Zombie.</p>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="hard-drive"></i></div>
+                        <h3>Virtual File System (VFS)</h3>
+                        <p>VFS provides a uniform interface for all filesystems (ext4, XFS, Btrfs, NFS, procfs, sysfs). Applications use the same system calls (open, read, write, close) regardless of the underlying storage. The inode structure stores file metadata.</p>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="zap"></i></div>
+                        <h3>Boot Process</h3>
+                        <p>The Linux boot sequence: <strong>BIOS/UEFI</strong> → POST → <strong>Bootloader</strong> (GRUB2) → Kernel loading & decompression → Kernel initialization → <strong>init/systemd</strong> (PID 1) → Runlevel/Target services → Login prompt. Use <code>dmesg</code> to view boot messages.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card" style="margin-top: 2rem;">
+                    <h3>Kernel Module Commands</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">Linux supports Loadable Kernel Modules (LKMs) that can be inserted/removed at runtime without rebooting.</p>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Kernel Module Management</span>
+                        </div>
+                        <pre><code><span class="comment"># List loaded kernel modules</span>
+<span class="builtin">lsmod</span>
+
+<span class="comment"># Get information about a module</span>
+<span class="builtin">modinfo</span> <span class="string">ext4</span>
+
+<span class="comment"># Load a module (with dependency resolution)</span>
+<span class="builtin">sudo modprobe</span> <span class="string">br_netfilter</span>
+
+<span class="comment"># Remove a module</span>
+<span class="builtin">sudo modprobe -r</span> <span class="string">br_netfilter</span>
+
+<span class="comment"># Insert a module directly (no dependency resolution)</span>
+<span class="builtin">sudo insmod</span> <span class="string">/path/to/module.ko</span>
+
+<span class="comment"># Remove a module directly</span>
+<span class="builtin">sudo rmmod</span> <span class="string">module_name</span></code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== NETWORKING ==================== -->
+            <section id="networking" class="section">
+                <div class="section-header">
+                    <h2><i data-lucide="globe"></i> Networking Fundamentals</h2>
+                    <p>How Linux communicates with the world — protocols, models, and concepts.</p>
+                </div>
+                
+                <div class="grid-cards">
+                    <div class="glass-card">
+                        <h3>The OSI Model</h3>
+                        <div class="osi-diagram">
+                            <div class="osi-layer" data-layer="7"><span class="layer-num">7</span><div><strong>Application</strong> — HTTP, FTP, SSH, DNS, SMTP</div></div>
+                            <div class="osi-layer" data-layer="6"><span class="layer-num">6</span><div><strong>Presentation</strong> — SSL/TLS, JPEG, ASCII, Encryption</div></div>
+                            <div class="osi-layer" data-layer="5"><span class="layer-num">5</span><div><strong>Session</strong> — Sockets, NetBIOS, RPC</div></div>
+                            <div class="osi-layer" data-layer="4"><span class="layer-num">4</span><div><strong>Transport</strong> — TCP (reliable), UDP (fast)</div></div>
+                            <div class="osi-layer" data-layer="3"><span class="layer-num">3</span><div><strong>Network</strong> — IP, ICMP, ARP, Routing</div></div>
+                            <div class="osi-layer" data-layer="2"><span class="layer-num">2</span><div><strong>Data Link</strong> — Ethernet, MAC addresses, Switches</div></div>
+                            <div class="osi-layer" data-layer="1"><span class="layer-num">1</span><div><strong>Physical</strong> — Cables, Hubs, Radio frequencies</div></div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card">
+                        <h3>TCP/IP Model</h3>
+                        <p style="margin-bottom: 1rem;">The practical 4-layer model used in real-world networking:</p>
+                        <div class="osi-diagram">
+                            <div class="osi-layer" data-layer="4" style="background: rgba(139,92,246,0.15);"><span class="layer-num" style="background: #8b5cf6;">4</span><div><strong>Application</strong> — HTTP, FTP, SSH, DNS (combines OSI 5-7)</div></div>
+                            <div class="osi-layer" data-layer="3" style="background: rgba(99,102,241,0.15);"><span class="layer-num" style="background: #6366f1;">3</span><div><strong>Transport</strong> — TCP, UDP, port numbers</div></div>
+                            <div class="osi-layer" data-layer="2" style="background: rgba(59,130,246,0.15);"><span class="layer-num" style="background: #3b82f6;">2</span><div><strong>Internet</strong> — IP addressing, routing, ICMP</div></div>
+                            <div class="osi-layer" data-layer="1" style="background: rgba(34,211,238,0.15);"><span class="layer-num" style="background: #22d3ee;">1</span><div><strong>Network Access</strong> — Ethernet, Wi-Fi, ARP (combines OSI 1-2)</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-cards" style="margin-top: 2rem;">
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="map-pin"></i></div>
+                        <h3>IP Addressing</h3>
+                        <p><strong>IPv4</strong>: 32-bit addresses (e.g., <code>192.168.1.100</code>), roughly 4.3 billion unique addresses. Uses <strong>subnetting</strong> and <strong>CIDR notation</strong> (e.g., <code>/24</code> = 256 addresses). Private ranges: <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code>.</p>
+                        <p style="margin-top: 0.75rem;"><strong>IPv6</strong>: 128-bit addresses (e.g., <code>2001:db8::1</code>), virtually unlimited addresses. Features auto-configuration and built-in IPsec.</p>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="globe-2"></i></div>
+                        <h3>DNS, DHCP & NAT</h3>
+                        <p><strong>DNS</strong> resolves domain names to IP addresses (e.g., google.com → 142.250.x.x). Uses a hierarchical system: Root → TLD → Authoritative nameservers.</p>
+                        <p style="margin-top: 0.5rem;"><strong>DHCP</strong> automatically assigns IP addresses, subnet masks, gateways, and DNS servers to devices on a network.</p>
+                        <p style="margin-top: 0.5rem;"><strong>NAT</strong> translates private IPs to public IPs, allowing multiple devices to share one public IP address.</p>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="door-open"></i></div>
+                        <h3>Ports & Protocols</h3>
+                        <p>Common ports every Linux admin should know:</p>
+                        <ul class="styled-list">
+                            <li><code>22</code> — SSH (Secure Shell)</li>
+                            <li><code>80</code> — HTTP</li>
+                            <li><code>443</code> — HTTPS</li>
+                            <li><code>53</code> — DNS</li>
+                            <li><code>25</code> — SMTP (Mail)</li>
+                            <li><code>21</code> — FTP</li>
+                            <li><code>3306</code> — MySQL</li>
+                            <li><code>5432</code> — PostgreSQL</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== NETWORKING COMMANDS ==================== -->
+            <section id="net-commands" class="section">
+                <div class="section-header">
+                    <h2><i data-lucide="wifi"></i> Networking Commands</h2>
+                    <p>Essential tools for configuring, testing, and troubleshooting network connectivity.</p>
+                </div>
+                
+                <!-- Network Category Filter -->
+                <div class="category-filters" id="net-command-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="interface">Interfaces</button>
+                    <button class="filter-btn" data-filter="connectivity">Connectivity</button>
+                    <button class="filter-btn" data-filter="dns">DNS</button>
+                    <button class="filter-btn" data-filter="connections">Connections</button>
+                    <button class="filter-btn" data-filter="transfer">Transfer</button>
+                    <button class="filter-btn" data-filter="remote">Remote</button>
+                    <button class="filter-btn" data-filter="firewall">Firewall</button>
+                    <button class="filter-btn" data-filter="diagnostics">Diagnostics</button>
+                </div>
+
+                <div class="commands-grid" id="network-commands-container">
+                    <!-- Networking commands injected via JS -->
+                </div>
+            </section>
+
+            <!-- ==================== FILE SYSTEMS ==================== -->
+            <section id="filesystems" class="section">
+                <div class="section-header">
+                    <h2><i data-lucide="hard-drive"></i> File Systems</h2>
+                    <p>Deep dive into how Linux stores, manages, and organizes data on storage devices.</p>
+                </div>
+                
+                <div class="grid-cards">
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="database"></i></div>
+                        <h3>Core Concepts</h3>
+                        <p>Linux file systems rely on underlying structures to track files:</p>
+                        <ul class="styled-list">
+                            <li><strong>Inodes</strong> — Data structures storing file metadata (permissions, owner, size, timestamps, block locations). An inode does <em>not</em> store the filename or the data itself.</li>
+                            <li><strong>Superblocks</strong> — Stores metadata about the file system itself (size, free space, inode count, state). If corrupted, the file system cannot be mounted.</li>
+                            <li><strong>Journaling</strong> — A technique where changes are logged to a "journal" before being committed to the main file system. This prevents corruption during sudden power loss or crashes (e.g., in ext4, XFS).</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="hard-drive"></i></div>
+                        <h3>Disk File Systems</h3>
+                        <p>The formats applied to physical partitions:</p>
+                        <ul class="styled-list">
+                            <li><strong>ext4</strong> — Fourth Extended File System. The robust, default standard for most Linux distributions.</li>
+                            <li><strong>XFS</strong> — High-performance 64-bit journaling file system. Excels at parallel I/O and handling massive files. Default on RHEL/CentOS.</li>
+                            <li><strong>Btrfs</strong> — "Butter FS". Advanced features like Copy-on-Write (CoW), native snapshots, checksumming, and built-in RAID.</li>
+                            <li><strong>ZFS</strong> — Massive capacity, combined logical volume manager and file system. Includes data integrity verification and transparent compression.</li>
+                            <li><strong>Swap</strong> — Not a traditional file system. Used as virtual memory when RAM is full.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="cpu"></i></div>
+                        <h3>Pseudo & Network File Systems</h3>
+                        <p>Virtual or remote file systems handled by the VFS (Virtual File System) layer:</p>
+                        <ul class="styled-list">
+                            <li><code>/proc</code> — RAM-based. Exposes kernel, process, and hardware info (e.g., <code>cat /proc/cpuinfo</code>).</li>
+                            <li><code>/sys</code> — Sysfs. Exposes device driver and hardware details.</li>
+                            <li><code>tmpfs</code> — Temporary file storage kept entirely in RAM (e.g., mounted at <code>/tmp</code>). Extremely fast but volatile.</li>
+                            <li><strong>NFS</strong> — Network File System. Allows mounting directories over a network (Linux/Unix standard).</li>
+                            <li><strong>SMB/CIFS</strong> — Used for sharing files with Windows systems.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="grid-cards" style="margin-top: 2rem;">
+                    <div class="glass-card">
+                        <div class="card-icon"><i data-lucide="layers"></i></div>
+                        <h3>Logical Volume Management (LVM)</h3>
+                        <p>LVM separates physical disks from file systems, allowing flexible resizing, striping, and snapshots.</p>
+                        <div class="osi-diagram" style="margin-top: 1rem;">
+                            <div class="osi-layer" style="background: rgba(139,92,246,0.15);"><div><strong>Logical Volumes (LV)</strong> — e.g., <code>/dev/vg0/root</code> (Formatted with ext4/XFS)</div></div>
+                            <div class="osi-layer" style="background: rgba(99,102,241,0.15);"><div><strong>Volume Group (VG)</strong> — e.g., <code>vg0</code> (Pool of storage)</div></div>
+                            <div class="osi-layer" style="background: rgba(59,130,246,0.15);"><div><strong>Physical Volumes (PV)</strong> — e.g., <code>/dev/sda1</code>, <code>/dev/sdb</code></div></div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card">
+                        <h3>Mounting & <code>/etc/fstab</code></h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">The <code>/etc/fstab</code> file dictates how devices and remote shares are automatically mounted at boot.</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>/etc/fstab format</span>
+                            </div>
+                            <pre><code><span class="comment"># &lt;file system&gt;     &lt;mount point&gt;  &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;</span>
+UUID=1234-abcd-5678 /              ext4    defaults        0      1
+/dev/sdb1           /mnt/data      xfs     defaults,noatime 0      2
+192.168.1.10:/share /mnt/nfs       nfs     defaults        0      0
+tmpfs               /tmp           tmpfs   defaults,size=2G 0      0</code></pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card" style="margin-top: 2rem;">
+                    <h3>File System Commands</h3>
+                    <div class="code-block">
+                        <pre><code><span class="comment"># Format a partition (create a file system)</span>
+<span class="builtin">mkfs.ext4</span> /dev/sdb1     <span class="comment"># Create ext4</span>
+<span class="builtin">mkfs.xfs</span> /dev/sdc1      <span class="comment"># Create XFS</span>
+
+<span class="comment"># Check and repair a file system</span>
+<span class="builtin">fsck</span> /dev/sdb1          <span class="comment"># Must run on unmounted file systems!</span>
+
+<span class="comment"># View file system metadata / tune parameters</span>
+<span class="builtin">tune2fs</span> -l /dev/sda1    <span class="comment"># View ext4 superblock info</span>
+<span class="builtin">xfs_info</span> /dev/sdb1      <span class="comment"># View XFS info</span>
+
+<span class="comment"># View inodes usage</span>
+<span class="builtin">df</span> -i                   <span class="comment"># Crucial: disks can run out of inodes before running out of space!</span></code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== SHELL SCRIPTING ==================== -->
+            <section id="scripting" class="section">
+                <div class="section-header">
+                    <h2>Shell Scripting</h2>
+                    <p>Master automation with these comprehensive Bash scripting concepts, from basic variables to error handling and cron automation.</p>
+                </div>
+                
+                <div class="scripting-tabs tab-container">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="variables"><i data-lucide="variable"></i> Variables</button>
+                        <button class="tab-btn" data-tab="arrays"><i data-lucide="list"></i> Arrays</button>
+                        <button class="tab-btn" data-tab="string"><i data-lucide="type"></i> String & Math</button>
+                        <button class="tab-btn" data-tab="conditionals"><i data-lucide="git-branch"></i> Conditionals</button>
+                        <button class="tab-btn" data-tab="loops"><i data-lucide="repeat"></i> Loops</button>
+                        <button class="tab-btn" data-tab="io"><i data-lucide="arrow-down-up"></i> I/O</button>
+                        <button class="tab-btn" data-tab="functions"><i data-lucide="box"></i> Functions</button>
+                        <button class="tab-btn" data-tab="errors"><i data-lucide="alert-triangle"></i> Error Handling</button>
+                        <button class="tab-btn" data-tab="cron"><i data-lucide="timer"></i> Cron Jobs</button>
+                        <button class="tab-btn" data-tab="oneliners"><i data-lucide="sparkles"></i> One-Liners</button>
+                    </div>
+
+                    <div class="tabs-content">
+                        <!-- Variables Tab -->
+                        <div class="tab-pane active" id="tab-variables">
+                            <div class="glass-card">
+                                <h3>Variables & Environment</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>variables.sh</span>
+                                    </div>
+                                    <pre><code><span class="keyword">#!/bin/bash</span>
+
+<span class="comment"># Local Variables (No spaces around =)</span>
+NAME=<span class="string">"Linux"</span>
+VERSION=<span class="string">6.1</span>
+
+<span class="comment"># Command substitution</span>
+TODAY=$(<span class="builtin">date</span> +%Y-%m-%d)
+FILES_COUNT=$(<span class="builtin">ls</span> -1 | <span class="builtin">wc</span> -l)
+
+<span class="comment"># Environment Variables</span>
+<span class="builtin">export</span> APP_ENV=<span class="string">"production"</span>
+
+<span class="comment"># Read-only variables</span>
+<span class="builtin">readonly</span> API_KEY=<span class="string">"secret_123"</span>
+
+<span class="comment"># Default values (Parameter Expansion)</span>
+<span class="builtin">echo</span> <span class="string">"User: ${USER_NAME:-'Guest'}"</span>  <span class="comment"># Prints 'Guest' if USER_NAME is unset</span>
+<span class="builtin">echo</span> <span class="string">"Path: ${CONFIG_PATH:='/etc/app'}"</span> <span class="comment"># Sets CONFIG_PATH if unset</span>
+
+<span class="comment"># Script Arguments</span>
+<span class="builtin">echo</span> <span class="string">"Script name: $0"</span>
+<span class="builtin">echo</span> <span class="string">"First arg: $1"</span>
+<span class="builtin">echo</span> <span class="string">"All args: $@"</span>
+<span class="builtin">echo</span> <span class="string">"Total args: $#"</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Arrays Tab -->
+                        <div class="tab-pane" id="tab-arrays">
+                            <div class="glass-card">
+                                <h3>Arrays (Indexed & Associative)</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>arrays.sh</span>
+                                    </div>
+                                    <pre><code><span class="keyword">#!/bin/bash</span>
+
+<span class="comment"># --- Indexed Arrays ---</span>
+DISTROS=(<span class="string">"Ubuntu"</span> <span class="string">"Fedora"</span> <span class="string">"Arch"</span> <span class="string">"Debian"</span>)
+
+<span class="builtin">echo</span> <span class="string">"First element: ${DISTROS[0]}"</span>
+<span class="builtin">echo</span> <span class="string">"All elements: ${DISTROS[@]}"</span>
+<span class="builtin">echo</span> <span class="string">"Array length: ${#DISTROS[@]}"</span>
+
+<span class="comment"># Add element</span>
+DISTROS+=(<span class="string">"CentOS"</span>)
+
+<span class="comment"># Iterate over array</span>
+<span class="keyword">for</span> distro <span class="keyword">in</span> <span class="string">"${DISTROS[@]}"</span>; <span class="keyword">do</span>
+    <span class="builtin">echo</span> <span class="string">"Distro: $distro"</span>
+<span class="keyword">done</span>
+
+<span class="comment"># --- Associative Arrays (Dictionaries) - Bash 4+ ---</span>
+<span class="builtin">declare</span> -A SERVERS
+SERVERS[web]=<span class="string">"192.168.1.10"</span>
+SERVERS[db]=<span class="string">"192.168.1.20"</span>
+
+<span class="builtin">echo</span> <span class="string">"Web server IP: ${SERVERS[web]}"</span>
+<span class="builtin">echo</span> <span class="string">"All keys: ${!SERVERS[@]}"</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- String & Math Tab -->
+                        <div class="tab-pane" id="tab-string">
+                            <div class="glass-card">
+                                <h3>String Manipulation & Arithmetic</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>ops.sh</span>
+                                    </div>
+                                    <pre><code><span class="keyword">#!/bin/bash</span>
+
+<span class="comment"># --- String Manipulation ---</span>
+TEXT=<span class="string">"Welcome_to_Linux_Scripting"</span>
+
+<span class="builtin">echo</span> <span class="string">"Length: ${#TEXT}"</span>                     <span class="comment"># 26</span>
+<span class="builtin">echo</span> <span class="string">"Substring: ${TEXT:11:5}"</span>              <span class="comment"># Linux</span>
+<span class="builtin">echo</span> <span class="string">"Replace first: ${TEXT/Linux/Unix}"</span>    <span class="comment"># Welcome_to_Unix_Scripting</span>
+<span class="builtin">echo</span> <span class="string">"Replace all: ${TEXT//_/ }"</span>            <span class="comment"># Welcome to Linux Scripting</span>
+<span class="builtin">echo</span> <span class="string">"Lowercase: ${TEXT,,}"</span>                 <span class="comment"># welcome_to_linux_scripting</span>
+<span class="builtin">echo</span> <span class="string">"Uppercase: ${TEXT^^}"</span>                 <span class="comment"># WELCOME_TO_LINUX_SCRIPTING</span>
+
+<span class="comment"># --- Arithmetic Operations ---</span>
+A=10
+B=3
+
+<span class="comment"># Using $(( )) syntax (Recommended)</span>
+SUM=$((A + B))
+DIFF=$((A - B))
+PROD=$((A * B))
+DIV=$((A / B))     <span class="comment"># Integer division (3)</span>
+MOD=$((A % B))     <span class="comment"># Remainder (1)</span>
+
+<span class="comment"># Increment/Decrement</span>
+((A++))
+<span class="builtin">echo</span> <span class="string">"A is now: $A"</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Conditionals Tab -->
+                        <div class="tab-pane" id="tab-conditionals">
+                            <div class="glass-card">
+                                <h3>Conditionals & Case Statements</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>conditionals.sh</span>
+                                    </div>
+                                    <pre><code><span class="keyword">#!/bin/bash</span>
+
+<span class="comment"># --- If/Elif/Else ---</span>
+<span class="keyword">if</span> [ -f <span class="string">"/etc/passwd"</span> ]; <span class="keyword">then</span>
+    <span class="builtin">echo</span> <span class="string">"File exists and is a regular file."</span>
+<span class="keyword">elif</span> [ -d <span class="string">"/etc"</span> ]; <span class="keyword">then</span>
+    <span class="builtin">echo</span> <span class="string">"Directory exists."</span>
+<span class="keyword">else</span>
+    <span class="builtin">echo</span> <span class="string">"Nothing found."</span>
+<span class="keyword">fi</span>
+
+<span class="comment"># Numeric: -eq, -ne, -lt, -le, -gt, -ge</span>
+<span class="comment"># String: =, !=, -z (empty), -n (not empty)</span>
+
+<span class="comment"># --- Case Statement ---</span>
+<span class="builtin">read</span> -p <span class="string">"Start service? (y/n): "</span> ANSWER
+<span class="keyword">case</span> $ANSWER <span class="keyword">in</span>
+    [Yy]* )
+        <span class="builtin">echo</span> <span class="string">"Starting..."</span>
+        ;;
+    [Nn]* )
+        <span class="builtin">echo</span> <span class="string">"Aborted."</span>
+        <span class="builtin">exit</span> 1
+        ;;
+    * )
+        <span class="builtin">echo</span> <span class="string">"Invalid input."</span>
+        ;;
+<span class="keyword">esac</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Loops Tab -->
+                        <div class="tab-pane" id="tab-loops">
+                            <div class="glass-card">
+                                <h3>Loops & Control Flow</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>loops.sh</span>
+                                    </div>
+                                    <pre><code><span class="keyword">#!/bin/bash</span>
+
+<span class="comment"># --- For Loop ---</span>
+<span class="keyword">for</span> i <span class="keyword">in</span> {1..5}; <span class="keyword">do</span>
+    <span class="builtin">echo</span> <span class="string">"Number: $i"</span>
+<span class="keyword">done</span>
+
+<span class="comment"># --- While Loop ---</span>
+count=1
+<span class="keyword">while</span> [ $count -le 3 ]; <span class="keyword">do</span>
+    <span class="builtin">echo</span> <span class="string">"Count: $count"</span>
+    ((count++))
+<span class="keyword">done</span>
+
+<span class="comment"># --- Until Loop (Runs until condition is TRUE) ---</span>
+server_up=<span class="string">"false"</span>
+<span class="keyword">until</span> [ <span class="string">"$server_up"</span> == <span class="string">"true"</span> ]; <span class="keyword">do</span>
+    <span class="builtin">echo</span> <span class="string">"Waiting for server..."</span>
+    <span class="builtin">sleep</span> 1
+    server_up=<span class="string">"true"</span> <span class="comment"># Simulating server coming up</span>
+<span class="keyword">done</span>
+
+<span class="comment"># --- Break and Continue ---</span>
+<span class="keyword">for</span> file <span class="keyword">in</span> *; <span class="keyword">do</span>
+    <span class="keyword">if</span> [ -d <span class="string">"$file"</span> ]; <span class="keyword">then</span>
+        <span class="keyword">continue</span>  <span class="comment"># Skip directories</span>
+    <span class="keyword">fi</span>
+    <span class="keyword">if</span> [[ <span class="string">"$file"</span> == *.bak ]]; <span class="keyword">then</span>
+        <span class="builtin">echo</span> <span class="string">"Found backup, stopping."</span>
+        <span class="keyword">break</span>     <span class="comment"># Exit the loop entirely</span>
+    <span class="keyword">fi</span>
+<span class="keyword">done</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- I/O Tab -->
+                        <div class="tab-pane" id="tab-io">
+                            <div class="glass-card">
+                                <h3>Input / Output & Redirection</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>io.sh</span>
+                                    </div>
+                                    <pre><code><span class="keyword">#!/bin/bash</span>
+
+<span class="comment"># --- Reading User Input ---</span>
+<span class="builtin">read</span> -p <span class="string">"Enter your name: "</span> NAME
+<span class="builtin">read</span> -s -p <span class="string">"Enter password: "</span> PASS  <span class="comment"># -s hides input</span>
+<span class="builtin">echo</span> -e <span class="string">"\nWelcome, $NAME!"</span>
+
+<span class="comment"># --- Reading Files Line-by-Line ---</span>
+<span class="keyword">while</span> IFS= <span class="builtin">read</span> -r line; <span class="keyword">do</span>
+    <span class="builtin">echo</span> <span class="string">"Processing: $line"</span>
+<span class="keyword">done</span> &lt; <span class="string">"data.txt"</span>
+
+<span class="comment"># --- File Descriptors & Redirection ---</span>
+<span class="comment"># 0 = stdin, 1 = stdout, 2 = stderr</span>
+
+<span class="builtin">echo</span> <span class="string">"Success message"</span> &gt; out.log     <span class="comment"># Overwrite stdout</span>
+<span class="builtin">echo</span> <span class="string">"Another line"</span> &gt;&gt; out.log       <span class="comment"># Append stdout</span>
+<span class="builtin">ls</span> /nonexistent 2&gt; error.log         <span class="comment"># Redirect stderr</span>
+<span class="builtin">command</span> &gt; all.log 2&gt;&amp;1               <span class="comment"># Redirect both stdout and stderr</span>
+
+<span class="comment"># --- Here Documents ---</span>
+<span class="builtin">cat</span> &lt;&lt; <span class="keyword">EOF</span> &gt; config.ini
+[Server]
+Host=127.0.0.1
+Port=8080
+<span class="keyword">EOF</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Functions Tab -->
+                        <div class="tab-pane" id="tab-functions">
+                            <div class="glass-card">
+                                <h3>Functions & Scope</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>functions.sh</span>
+                                    </div>
+                                    <pre><code><span class="keyword">#!/bin/bash</span>
+
+<span class="comment"># Function definition</span>
+<span class="keyword">function</span> log_message() {
+    <span class="comment"># Use 'local' to prevent polluting global scope</span>
+    <span class="keyword">local</span> level=<span class="string">"$1"</span>
+    <span class="keyword">local</span> msg=<span class="string">"$2"</span>
+    <span class="keyword">local</span> timestamp=$(<span class="builtin">date</span> '+%Y-%m-%d %H:%M:%S')
+    
+    <span class="builtin">echo</span> <span class="string">"[$timestamp] [$level] $msg"</span>
+}
+
+<span class="comment"># Function that returns a value (via exit code or stdout)</span>
+<span class="keyword">function</span> check_root() {
+    <span class="keyword">if</span> [ <span class="string">"$EUID"</span> -ne 0 ]; <span class="keyword">then</span>
+        <span class="keyword">return</span> 1 <span class="comment"># False / Error</span>
+    <span class="keyword">fi</span>
+    <span class="keyword">return</span> 0 <span class="comment"># True / Success</span>
+}
+
+<span class="comment"># Using the functions</span>
+log_message <span class="string">"INFO"</span> <span class="string">"Script started."</span>
+
+<span class="keyword">if</span> check_root; <span class="keyword">then</span>
+    log_message <span class="string">"INFO"</span> <span class="string">"Running as root."</span>
+<span class="keyword">else</span>
+    log_message <span class="string">"ERROR"</span> <span class="string">"Must be run as root."</span>
+    <span class="builtin">exit</span> 1
+<span class="keyword">fi</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Error Handling Tab -->
+                        <div class="tab-pane" id="tab-errors">
+                            <div class="glass-card">
+                                <h3>Error Handling & Debugging</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>errors.sh</span>
+                                    </div>
+                                    <pre><code><span class="keyword">#!/bin/bash</span>
+
+<span class="comment"># --- Strict Mode ---</span>
+<span class="builtin">set</span> -e  <span class="comment"># Exit immediately if a command exits with a non-zero status.</span>
+<span class="builtin">set</span> -u  <span class="comment"># Treat unset variables as an error.</span>
+<span class="builtin">set</span> -o pipefail  <span class="comment"># Return the exit status of the last failed command in a pipe.</span>
+
+<span class="comment"># --- Debugging ---</span>
+<span class="comment"># Run script with bash -x script.sh or use set -x inside the script</span>
+<span class="comment"># set -x  # Enable debug mode (prints commands as they execute)</span>
+<span class="comment"># set +x  # Disable debug mode</span>
+
+<span class="comment"># --- Traps (Catching signals/exits) ---</span>
+<span class="keyword">function</span> cleanup() {
+    <span class="builtin">echo</span> <span class="string">"Cleaning up temporary files..."</span>
+    <span class="builtin">rm</span> -rf /tmp/myscript_$$
+}
+
+<span class="comment"># Run cleanup() on EXIT (normal or error) or SIGINT (Ctrl+C)</span>
+<span class="builtin">trap</span> cleanup EXIT SIGINT
+
+<span class="comment"># Main script logic</span>
+<span class="builtin">mkdir</span> -p /tmp/myscript_$$
+<span class="builtin">echo</span> <span class="string">"Working..."</span>
+<span class="comment"># Even if an error happens here due to `set -e`, cleanup will run!</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cron Tab -->
+                        <div class="tab-pane" id="tab-cron">
+                            <div class="glass-card">
+                                <h3>Cron Jobs & Automation</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>cron syntax</span>
+                                    </div>
+                                    <pre><code><span class="comment"># Edit crontab</span>
+<span class="builtin">crontab -e</span>
+
+<span class="comment"># Cron format:</span>
+<span class="comment"># MIN HOUR DOM MON DOW COMMAND</span>
+<span class="comment"># ┌───── minute (0-59)</span>
+<span class="comment"># │ ┌───── hour (0-23)</span>
+<span class="comment"># │ │ ┌───── day of month (1-31)</span>
+<span class="comment"># │ │ │ ┌───── month (1-12)</span>
+<span class="comment"># │ │ │ │ ┌───── day of week (0-6, Sun=0)</span>
+
+<span class="comment"># Every day at 2:30 AM</span>
+30 2 * * * /scripts/backup.sh
+
+<span class="comment"># Every Monday at 9 AM</span>
+0 9 * * 1 /scripts/report.sh
+
+<span class="comment"># Every 5 minutes</span>
+*/5 * * * * /scripts/health_check.sh</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- One-Liners Tab -->
+                        <div class="tab-pane" id="tab-oneliners">
+                            <div class="glass-card">
+                                <h3>Useful One-Liners</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>Handy shell one-liners</span>
+                                    </div>
+                                    <pre><code><span class="comment"># Find the 10 largest files in a directory</span>
+<span class="builtin">find</span> /var -type f -exec du -h {} + | sort -rh | head -10
+
+<span class="comment"># Watch a log file in real-time with highlighting</span>
+<span class="builtin">tail</span> -f /var/log/syslog | grep --color=auto <span class="string">"error"</span>
+
+<span class="comment"># Kill all processes matching a name</span>
+<span class="builtin">ps</span> aux | grep <span class="string">"zombie"</span> | awk '{print $2}' | xargs kill -9
+
+<span class="comment"># Check which ports are listening</span>
+<span class="builtin">ss</span> -tulnp
+
+<span class="comment"># Replace text in all files recursively</span>
+<span class="builtin">find</span> . -name <span class="string">"*.conf"</span> -exec sed -i <span class="string">'s/old/new/g'</span> {} +
+
+<span class="comment"># Disk usage sorted by size</span>
+<span class="builtin">du</span> -sh /* 2>/dev/null | sort -rh
+
+<span class="comment"># Show all established connections</span>
+<span class="builtin">netstat</span> -an | grep ESTABLISHED | wc -l</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced System Internals Section -->
+            <section id="advanced" class="section" style="margin-top: 4rem;">
+                <h2>Advanced System Internals</h2>
+                <p>Deep dives into the foundational concepts of modern Linux system engineering, including service management, security primitives, and containerization.</p>
+
+                <div class="advanced-tabs tab-container" style="margin-top: 2rem;">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="systemd"><i data-lucide="power"></i> Systemd</button>
+                        <button class="tab-btn" data-tab="security"><i data-lucide="shield-check"></i> Security (MAC)</button>
+                        <button class="tab-btn" data-tab="containers"><i data-lucide="box"></i> Containerization</button>
+                        <button class="tab-btn" data-tab="ebpf"><i data-lucide="network"></i> Advanced Networking</button>
+                    </div>
+
+                    <div class="tabs-content">
+                        <!-- Systemd Tab -->
+                        <div class="tab-pane active" id="tab-systemd">
+                            <div class="glass-card">
+                                <h3>Systemd & Service Management</h3>
+                                <p class="cmd-desc">Systemd is the modern standard init system and service manager for Linux. It manages the boot process, handles dependency resolution, parallel execution, and centralized logging.</p>
+                                
+                                <div class="cmd-flags" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                                    <h5>Key Concepts</h5>
+                                    <div class="flag-item">
+                                        <span class="flag-name">Units</span>
+                                        <span class="flag-desc">The basic objects systemd manages (e.g., .service, .socket, .timer, .target).</span>
+                                    </div>
+                                    <div class="flag-item">
+                                        <span class="flag-name">Targets</span>
+                                        <span class="flag-desc">Groupings of units (similar to traditional runlevels) that define system states (e.g., multi-user.target).</span>
+                                    </div>
+                                </div>
+
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>systemctl & journalctl</span>
+                                    </div>
+                                    <pre><code><span class="comment"># Reload systemd manager configuration after editing a unit file</span>
+<span class="builtin">systemctl</span> daemon-reload
+
+<span class="comment"># Enable a service to start on boot and start it immediately</span>
+<span class="builtin">systemctl</span> enable --now nginx.service
+
+<span class="comment"># Show the tree of dependencies for a service</span>
+<span class="builtin">systemctl</span> list-dependencies docker.service
+
+<span class="comment"># Analyze system boot time and which services took the longest</span>
+<span class="builtin">systemd-analyze</span> blame
+
+<span class="comment"># View logs for a specific service since the last boot</span>
+<span class="builtin">journalctl</span> -u sshd.service -b</code></pre>
+                                </div>
+                                <div style="margin-top: 1rem; font-size: 0.85rem;">
+                                    <a href="https://systemd.io/" target="_blank"><i data-lucide="external-link" style="width:14px;height:14px;vertical-align:middle;"></i> systemd.io Documentation</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security Tab -->
+                        <div class="tab-pane" id="tab-security">
+                            <div class="glass-card">
+                                <h3>Linux Security Modules (SELinux/AppArmor)</h3>
+                                <p class="cmd-desc">Mandatory Access Control (MAC) systems provide granular security policies independent of traditional user/group permissions (DAC). They confine programs to a limited set of resources to mitigate exploits.</p>
+                                
+                                <div class="cmd-flags" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                                    <h5>Key Concepts</h5>
+                                    <div class="flag-item">
+                                        <span class="flag-name">Contexts</span>
+                                        <span class="flag-desc">SELinux labels files and processes in the format <code>User:Role:Type:Level</code>.</span>
+                                    </div>
+                                    <div class="flag-item">
+                                        <span class="flag-name">Profiles</span>
+                                        <span class="flag-desc">AppArmor uses path-based profiles loaded into the kernel to restrict capabilities.</span>
+                                    </div>
+                                </div>
+
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>MAC Commands</span>
+                                    </div>
+                                    <pre><code><span class="comment"># View current SELinux status and enforcement mode</span>
+<span class="builtin">sestatus</span>
+
+<span class="comment"># Temporarily switch SELinux to Permissive mode (logs warnings instead of denying)</span>
+<span class="builtin">setenforce</span> 0
+
+<span class="comment"># View SELinux context of files (note the -Z flag)</span>
+<span class="builtin">ls</span> -lZ /var/www/html
+
+<span class="comment"># Restore default SELinux contexts for a directory recursively</span>
+<span class="builtin">restorecon</span> -Rv /var/www/html
+
+<span class="comment"># AppArmor: Check the status of loaded profiles</span>
+<span class="builtin">aa-status</span></code></pre>
+                                </div>
+                                <div style="margin-top: 1rem; font-size: 0.85rem;">
+                                    <a href="https://ubuntu.com/server/docs/security-apparmor" target="_blank"><i data-lucide="external-link" style="width:14px;height:14px;vertical-align:middle;"></i> AppArmor Docs</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Containerization Tab -->
+                        <div class="tab-pane" id="tab-containers">
+                            <div class="glass-card">
+                                <h3>Containerization Primitives</h3>
+                                <p class="cmd-desc">Containers are not VMs; they are isolated Linux processes. Tools like Docker build upon fundamental kernel features—Namespaces and Control Groups (cgroups)—to create this isolation.</p>
+                                
+                                <div class="cmd-flags" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                                    <h5>Key Concepts</h5>
+                                    <div class="flag-item">
+                                        <span class="flag-name">Namespaces</span>
+                                        <span class="flag-desc">Isolate global resources (PID, NET, MNT, UTS, IPC). A process in a PID namespace thinks it is PID 1.</span>
+                                    </div>
+                                    <div class="flag-item">
+                                        <span class="flag-name">cgroups</span>
+                                        <span class="flag-desc">Limit and account for resource usage (CPU, Memory, I/O) of a group of processes.</span>
+                                    </div>
+                                </div>
+
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>Namespace & cgroup Commands</span>
+                                    </div>
+                                    <pre><code><span class="comment"># Run a shell in a new PID and Mount namespace (creates a primitive "container")</span>
+<span class="builtin">unshare</span> --pid --mount --fork /bin/bash
+
+<span class="comment"># Enter an existing namespace of a running process (by PID)</span>
+<span class="builtin">nsenter</span> --target 1234 --pid --mount
+
+<span class="comment"># List all namespaces currently active on the system</span>
+<span class="builtin">lsns</span>
+
+<span class="comment"># Change the apparent root directory for the current running process</span>
+<span class="builtin">chroot</span> /path/to/new/root
+
+<span class="comment"># View cgroup memory limits for a specific slice</span>
+<span class="builtin">cat</span> /sys/fs/cgroup/memory/docker/memory.limit_in_bytes</code></pre>
+                                </div>
+                                <div style="margin-top: 1rem; font-size: 0.85rem;">
+                                    <a href="https://man7.org/linux/man-pages/man7/namespaces.7.html" target="_blank"><i data-lucide="external-link" style="width:14px;height:14px;vertical-align:middle;"></i> namespaces(7)</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- eBPF Tab -->
+                        <div class="tab-pane" id="tab-ebpf">
+                            <div class="glass-card">
+                                <h3>Advanced Networking & eBPF</h3>
+                                <p class="cmd-desc">Modern cloud-native networking utilizes Traffic Control, packet filtering (nftables), and eBPF—a revolutionary technology allowing sandboxed programs to run directly within the Linux kernel.</p>
+                                
+                                <div class="cmd-flags" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                                    <h5>Key Concepts</h5>
+                                    <div class="flag-item">
+                                        <span class="flag-name">eBPF</span>
+                                        <span class="flag-desc">Extended Berkeley Packet Filter. Dynamically injects secure programs into kernel hooks for unparalleled network observability and routing (e.g., Cilium).</span>
+                                    </div>
+                                    <div class="flag-item">
+                                        <span class="flag-name">nftables</span>
+                                        <span class="flag-desc">The modern replacement for iptables, offering a unified framework for IPv4/IPv6 packet filtering and NAT.</span>
+                                    </div>
+                                </div>
+
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>Advanced Networking Commands</span>
+                                    </div>
+                                    <pre><code><span class="comment"># List all active eBPF programs loaded in the kernel</span>
+<span class="builtin">bpftool</span> prog list
+
+<span class="comment"># List all nftables rulesets</span>
+<span class="builtin">nft</span> list ruleset
+
+<span class="comment"># Create a new network namespace (isolated networking stack)</span>
+<span class="builtin">ip</span> netns add isolated_net
+
+<span class="comment"># Run a command inside a specific network namespace</span>
+<span class="builtin">ip</span> netns exec isolated_net bash
+
+<span class="comment"># View Traffic Control (tc) queuing disciplines for an interface</span>
+<span class="builtin">tc</span> qdisc show dev eth0</code></pre>
+                                </div>
+                                <div style="margin-top: 1rem; font-size: 0.85rem;">
+                                    <a href="https://ebpf.io/what-is-ebpf/" target="_blank"><i data-lucide="external-link" style="width:14px;height:14px;vertical-align:middle;"></i> eBPF.io Overview</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Footer -->
+            <footer class="footer">
+                <p>Built for Linux Enthusiasts ❤️ — The Complete Linux Reference</p>
+                <a href="#home" class="scroll-top"><i data-lucide="arrow-up"></i> Back to top</a>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+    </script>
+    <script src="js/content.js"></script>
+    <script src="js/terminal.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
