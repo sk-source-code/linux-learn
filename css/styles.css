@@ -1199,3 +1199,36 @@ a:hover {
         transform: translateY(0);
     }
 }
+/* ==================== Quiz Section ==================== */
+.quiz-option-btn {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-light);
+    color: var(--text-main);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition-fast);
+    font-size: 1rem;
+    font-family: var(--font-mono);
+}
+
+.quiz-option-btn:hover:not(:disabled) {
+    background-color: var(--bg-card-hover);
+    border-color: var(--accent-primary);
+}
+
+.quiz-option-btn.correct {
+    background-color: rgba(39, 201, 63, 0.2);
+    border-color: #27c93f;
+}
+
+.quiz-option-btn.incorrect {
+    background-color: rgba(255, 95, 86, 0.2);
+    border-color: #ff5f56;
+}
+
+.quiz-option-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
