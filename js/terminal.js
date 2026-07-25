@@ -28,11 +28,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mock File System
     let currentDir = '/home/user';
+    
+    // Structure: Directory is an array of strings. File is a string (content).
     const fileSystem = {
         '/home/user': ['documents', 'downloads', 'notes.txt', '.bashrc'],
         '/home/user/documents': ['resume.pdf', 'project.html'],
         '/home/user/downloads': ['linux_cheatsheet.pdf'],
-        '/': ['bin', 'etc', 'home', 'var', 'usr', 'tmp']
+        '/': ['bin', 'etc', 'home', 'var', 'usr', 'tmp'],
+        // Mock file contents
+        '/home/user/notes.txt': 'Learn Linux kernel architecture\nMaster iptables and nftables\nWrite bash scripts',
+        '/home/user/.bashrc': 'alias ll="ls -la"\nexport PATH=$PATH:/usr/local/bin',
+        '/home/user/documents/project.html': '<h1>Hello Linux</h1>\n<p>This is a test project.</p>'
     };
 
     const prompt = () => {
@@ -77,17 +83,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 term.writeln('  ls      List directory contents');
                 term.writeln('  cd      Change directory');
                 term.writeln('  pwd     Print working directory');
+                term.writeln('  cat     Concatenate and print file contents');
                 term.writeln('  echo    Print text to terminal');
                 term.writeln('  whoami  Print current user');
                 term.writeln('  date    Print system date/time');
+                term.writeln('  uptime  Tell how long the system has been running');
                 term.writeln('  clear   Clear terminal screen');
                 break;
             case 'ls':
                 const contents = fileSystem[currentDir] || [];
-                if (contents.length === 0) {
+                if (Array.isArray(contents) && contents.length === 0) {
                     term.writeln('Directory is empty.');
-                } else {
+                } else if (Array.isArray(contents)) {
                     term.writeln(contents.join('  '));
+                } else {
+                    term.writeln(`ls: cannot access '${currentDir}': Not a directory`);
                 }
                 break;
             case 'cd':
@@ -116,6 +126,28 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'pwd':
                 term.writeln(currentDir);
                 break;
+            case 'cat':
+                if (!args[1]) {
+                    term.writeln('cat: missing file operand');
+                    break;
+                }
+                const targetFile = args[1];
+                let filePath = targetFile;
+                if (!targetFile.startsWith('/')) {
+                    filePath = currentDir === '/' ? `/${targetFile}` : `${currentDir}/${targetFile}`;
+                }
+                
+                const fileContent = fileSystem[filePath];
+                if (fileContent === undefined) {
+                    term.writeln(`cat: ${targetFile}: No such file or directory`);
+                } else if (Array.isArray(fileContent)) {
+                    term.writeln(`cat: ${targetFile}: Is a directory`);
+                } else {
+                    // It's a file, print its contents properly handling newlines
+                    const lines = fileContent.split('\n');
+                    lines.forEach(line => term.writeln(line));
+                }
+                break;
             case 'echo':
                 term.writeln(args.slice(1).join(' '));
                 break;
@@ -124,6 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
             case 'date':
                 term.writeln(new Date().toString());
+                break;
+            case 'uptime':
+                term.writeln(' 10:20:30 up 3 days,  4:20,  1 user,  load average: 0.01, 0.05, 0.02');
                 break;
             case 'clear':
                 term.clear();
