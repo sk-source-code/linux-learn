@@ -11,6 +11,7 @@
     
     --text-main: #e2e8f0;
     --text-muted: #94a3b8;
+    --text-heading: #ffffff;
     
     --accent-primary: #8b5cf6;
     --accent-secondary: #6366f1;
@@ -52,6 +53,7 @@ body.light-theme {
     
     --text-main: #0f172a;
     --text-muted: #64748b;
+    --text-heading: #1e293b;
     
     --accent-primary: #7c3aed;
     --accent-secondary: #4f46e5;
@@ -93,7 +95,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     line-height: 1.2;
     margin-bottom: 1rem;
-    color: #ffffff;
+    color: var(--text-heading);
 }
 
 a {

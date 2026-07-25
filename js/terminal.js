@@ -35,10 +35,15 @@ document.addEventListener('DOMContentLoaded', () => {
         '/home/user/documents': ['resume.pdf', 'project.html'],
         '/home/user/downloads': ['linux_cheatsheet.pdf'],
         '/': ['bin', 'etc', 'home', 'var', 'usr', 'tmp'],
+        '/home': ['user'],
+        '/etc': ['fstab', 'hosts', 'passwd', 'nginx'],
+        '/var': ['log', 'www', 'tmp'],
         // Mock file contents
         '/home/user/notes.txt': 'Learn Linux kernel architecture\nMaster iptables and nftables\nWrite bash scripts',
         '/home/user/.bashrc': 'alias ll="ls -la"\nexport PATH=$PATH:/usr/local/bin',
-        '/home/user/documents/project.html': '<h1>Hello Linux</h1>\n<p>This is a test project.</p>'
+        '/home/user/documents/project.html': '<h1>Hello Linux</h1>\n<p>This is a test project.</p>',
+        '/etc/hosts': '127.0.0.1   localhost\n::1         localhost\n192.168.0.1 gateway',
+        '/etc/fstab': '# <file system>  <mount point>  <type>  <options>         <dump> <pass>\n/dev/sda1        /              ext4    errors=remount-ro 0      1'
     };
 
     const prompt = () => {
@@ -80,15 +85,17 @@ document.addEventListener('DOMContentLoaded', () => {
         switch (cmd) {
             case 'help':
                 term.writeln('Available mock commands:');
-                term.writeln('  ls      List directory contents');
-                term.writeln('  cd      Change directory');
-                term.writeln('  pwd     Print working directory');
-                term.writeln('  cat     Concatenate and print file contents');
-                term.writeln('  echo    Print text to terminal');
-                term.writeln('  whoami  Print current user');
-                term.writeln('  date    Print system date/time');
-                term.writeln('  uptime  Tell how long the system has been running');
-                term.writeln('  clear   Clear terminal screen');
+                term.writeln('  ls       List directory contents');
+                term.writeln('  cd       Change directory');
+                term.writeln('  pwd      Print working directory');
+                term.writeln('  cat      Concatenate and print file contents');
+                term.writeln('  echo     Print text to terminal');
+                term.writeln('  whoami   Print current user');
+                term.writeln('  hostname Print system hostname');
+                term.writeln('  uname    Print system information');
+                term.writeln('  date     Print system date/time');
+                term.writeln('  uptime   Tell how long the system has been running');
+                term.writeln('  clear    Clear terminal screen');
                 break;
             case 'ls':
                 const contents = fileSystem[currentDir] || [];
@@ -165,6 +172,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
             case 'sudo':
                 term.writeln('user is not in the sudoers file. This incident will be reported.');
+                break;
+            case 'hostname':
+                term.writeln('linux-knowledge-base');
+                break;
+            case 'uname':
+                if (args[1] === '-a') {
+                    term.writeln('Linux linux-kb 6.8.0-generic #1 SMP x86_64 GNU/Linux');
+                } else {
+                    term.writeln('Linux');
+                }
+                break;
+            case 'mkdir':
+                if (!args[1]) {
+                    term.writeln('mkdir: missing operand');
+                } else {
+                    term.writeln(`mkdir: cannot create directory '${args[1]}': Read-only file system (simulated)`);
+                }
+                break;
+            case 'rm':
+                term.writeln('rm: operation not permitted in simulator');
+                break;
+            case 'exit':
+                term.writeln('logout');
+                term.writeln('Connection to linux-kb closed.');
                 break;
             default:
                 term.writeln(`bash: ${cmd}: command not found`);
