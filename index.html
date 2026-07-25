@@ -20,6 +20,14 @@
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Xterm.js for Interactive Terminal -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
+    <style>
+        /* Override xterm background to match our theme */
+        .xterm-viewport { background-color: transparent !important; }
+        .xterm-screen { padding: 1rem; }
+    </style>
 </head>
 <body>
     <!-- Mobile Hamburger Menu -->
@@ -135,8 +143,8 @@
                         </div>
                         <div class="terminal-title">user@linux:~</div>
                     </div>
-                    <div class="terminal-body" id="terminal-body">
-                        <!-- Terminal animation injected here -->
+                    <div class="terminal-body" id="terminal-body" style="padding: 0; min-height: 250px;">
+                        <!-- Xterm.js will inject canvas here -->
                     </div>
                 </div>
             </section>
@@ -1148,6 +1156,9 @@ log_message <span class="string">"INFO"</span> <span class="string">"Script star
     </div>
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
+    
     <script>
         // Initialize Icons
         lucide.createIcons();
