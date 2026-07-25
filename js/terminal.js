@@ -1,76 +1,138 @@
-/**
- * Terminal Animation Engine
- */
-
-const terminalSequence = [
-    { type: 'command', text: 'uname -a' },
-    { type: 'output', text: 'Linux kernel-dev 6.1.0-11-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.38-4 x86_64 GNU/Linux' },
-    { type: 'command', text: 'whoami' },
-    { type: 'output', text: 'root' },
-    { type: 'command', text: 'uptime' },
-    { type: 'output', text: ' 14:32:01 up 45 days, 12:15,  2 users,  load average: 0.15, 0.08, 0.01' },
-    { type: 'command', text: 'echo "Welcome to the Linux Knowledge Base!"' },
-    { type: 'output', text: 'Welcome to the Linux Knowledge Base!' },
-    { type: 'command', text: 'cat /etc/os-release' },
-    { type: 'output', text: 'PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"<br>NAME="Debian GNU/Linux"<br>VERSION_ID="12"<br>VERSION="12 (bookworm)"' }
-];
-
-const terminalBody = document.getElementById('terminal-body');
-const typingSpeed = 50; // ms per char
-const delayBetweenCommands = 1000; // ms
-const promptText = '<span class="term-prompt">user@linux:~$</span>';
-
-let seqIndex = 0;
-
-function typeText(element, text, index, callback) {
-    if (index < text.length) {
-        element.appendChild(document.createTextNode(text.charAt(index)));
-        setTimeout(() => {
-            typeText(element, text, index + 1, callback);
-        }, typingSpeed);
-    } else {
-        if (callback) callback();
-    }
-}
-
-function processSequence() {
-    if (seqIndex >= terminalSequence.length) {
-        // Add final prompt with blinking cursor
-        const finalLine = document.createElement('div');
-        finalLine.className = 'term-line';
-        finalLine.innerHTML = `${promptText} <span class="term-cursor"></span>`;
-        terminalBody.appendChild(finalLine);
-        terminalBody.scrollTop = terminalBody.scrollHeight;
-        return;
-    }
-
-    const item = terminalSequence[seqIndex];
-    const lineElement = document.createElement('div');
-    lineElement.className = 'term-line';
-
-    if (item.type === 'command') {
-        lineElement.innerHTML = `${promptText} <span class="term-command"></span><span class="term-cursor"></span>`;
-        terminalBody.appendChild(lineElement);
-        const cmdSpan = lineElement.querySelector('.term-command');
-        const cursor = lineElement.querySelector('.term-cursor');
-        
-        typeText(cmdSpan, item.text, 0, () => {
-            cursor.remove(); // Remove cursor after typing
-            seqIndex++;
-            setTimeout(processSequence, delayBetweenCommands / 2);
-        });
-    } else if (item.type === 'output') {
-        lineElement.innerHTML = `<div class="term-output">${item.text}</div>`;
-        terminalBody.appendChild(lineElement);
-        seqIndex++;
-        setTimeout(processSequence, delayBetweenCommands);
-    }
-
-    terminalBody.scrollTop = terminalBody.scrollHeight;
-}
-
-// Start animation when document is ready
 document.addEventListener('DOMContentLoaded', () => {
-    // Add small delay before starting
-    setTimeout(processSequence, 1000);
+    const terminalContainer = document.getElementById('terminal-body');
+    if (!terminalContainer) return;
+
+    // Initialize xterm.js
+    const term = new Terminal({
+        cursorBlink: true,
+        theme: {
+            background: 'transparent',
+            foreground: '#e2e8f0',
+            cursor: '#8b5cf6'
+        },
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: 14,
+        cols: 60,
+        rows: 12
+    });
+
+    const fitAddon = new FitAddon.FitAddon();
+    term.loadAddon(fitAddon);
+    term.open(terminalContainer);
+    fitAddon.fit();
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        fitAddon.fit();
+    });
+
+    // Mock File System
+    let currentDir = '/home/user';
+    const fileSystem = {
+        '/home/user': ['documents', 'downloads', 'notes.txt', '.bashrc'],
+        '/home/user/documents': ['resume.pdf', 'project.html'],
+        '/home/user/downloads': ['linux_cheatsheet.pdf'],
+        '/': ['bin', 'etc', 'home', 'var', 'usr', 'tmp']
+    };
+
+    const prompt = () => {
+        const dir = currentDir === '/home/user' ? '~' : currentDir;
+        term.write(`\r\n\x1b[1;32muser@linux\x1b[0m:\x1b[1;34m${dir}\x1b[0m$ `);
+    };
+
+    term.writeln('Welcome to the interactive Linux Terminal Simulator!');
+    term.writeln('Type \x1b[1;33mhelp\x1b[0m to see available commands.');
+    prompt();
+
+    let input = '';
+
+    term.onKey(e => {
+        const printable = !e.domEvent.altKey && !e.domEvent.altGraphKey && !e.domEvent.ctrlKey && !e.domEvent.metaKey;
+
+        if (e.domEvent.keyCode === 13) { // Enter
+            term.write('\r\n');
+            processCommand(input.trim());
+            input = '';
+            prompt();
+        } else if (e.domEvent.keyCode === 8) { // Backspace
+            if (input.length > 0) {
+                input = input.slice(0, -1);
+                term.write('\b \b');
+            }
+        } else if (printable) {
+            input += e.key;
+            term.write(e.key);
+        }
+    });
+
+    function processCommand(cmdStr) {
+        if (!cmdStr) return;
+        
+        const args = cmdStr.split(' ');
+        const cmd = args[0].toLowerCase();
+
+        switch (cmd) {
+            case 'help':
+                term.writeln('Available mock commands:');
+                term.writeln('  ls      List directory contents');
+                term.writeln('  cd      Change directory');
+                term.writeln('  pwd     Print working directory');
+                term.writeln('  echo    Print text to terminal');
+                term.writeln('  whoami  Print current user');
+                term.writeln('  date    Print system date/time');
+                term.writeln('  clear   Clear terminal screen');
+                break;
+            case 'ls':
+                const contents = fileSystem[currentDir] || [];
+                if (contents.length === 0) {
+                    term.writeln('Directory is empty.');
+                } else {
+                    term.writeln(contents.join('  '));
+                }
+                break;
+            case 'cd':
+                const target = args[1];
+                if (!target || target === '~') {
+                    currentDir = '/home/user';
+                } else if (target === '..') {
+                    if (currentDir !== '/') {
+                        const parts = currentDir.split('/');
+                        parts.pop();
+                        currentDir = parts.join('/') || '/';
+                    }
+                } else if (target === '/') {
+                    currentDir = '/';
+                } else {
+                    const newPath = currentDir === '/' ? `/${target}` : `${currentDir}/${target}`;
+                    if (fileSystem[newPath]) {
+                        currentDir = newPath;
+                    } else if (fileSystem[currentDir] && fileSystem[currentDir].includes(target)) {
+                        term.writeln(`bash: cd: ${target}: Not a directory`);
+                    } else {
+                        term.writeln(`bash: cd: ${target}: No such file or directory`);
+                    }
+                }
+                break;
+            case 'pwd':
+                term.writeln(currentDir);
+                break;
+            case 'echo':
+                term.writeln(args.slice(1).join(' '));
+                break;
+            case 'whoami':
+                term.writeln('user');
+                break;
+            case 'date':
+                term.writeln(new Date().toString());
+                break;
+            case 'clear':
+                term.clear();
+                break;
+            case 'sudo':
+                term.writeln('user is not in the sudoers file. This incident will be reported.');
+                break;
+            default:
+                term.writeln(`bash: ${cmd}: command not found`);
+        }
+    }
 });
