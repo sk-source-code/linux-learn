@@ -4,6 +4,35 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- Theme Toggle ---
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Check localStorage first, otherwise fallback to system preference
+    const currentTheme = localStorage.getItem('theme') || (prefersDarkScheme.matches ? 'dark' : 'light');
+    
+    if (currentTheme === 'light') {
+        document.body.classList.add('light-theme');
+        if (themeToggleBtn) {
+            themeToggleBtn.innerHTML = '<i data-lucide="moon"></i>';
+        }
+    }
+    
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            let theme = 'dark';
+            if (document.body.classList.contains('light-theme')) {
+                theme = 'light';
+                themeToggleBtn.innerHTML = '<i data-lucide="moon"></i>';
+            } else {
+                themeToggleBtn.innerHTML = '<i data-lucide="sun"></i>';
+            }
+            localStorage.setItem('theme', theme);
+            lucide.createIcons({ root: themeToggleBtn });
+        });
+    }
+
     // --- Render Content ---
     const commandsContainer = document.getElementById('commands-container');
     const networkCommandsContainer = document.getElementById('network-commands-container');
