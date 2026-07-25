@@ -27,14 +27,20 @@ document.addEventListener('DOMContentLoaded', () => {
         return arr[Math.floor(Math.random() * arr.length)];
     }
 
-    // Generate a pool of 5 random questions
+    // Generate a pool of 5 random, unique questions
     function generateQuestions() {
         const questions = [];
         const cmds = searchIndex.filter(c => c.description && c.name);
+        const usedIndices = new Set();
         
         for (let i = 0; i < TOTAL_QUESTIONS; i++) {
-            // Pick a random correct command
-            const correctCmd = getRandomItem(cmds);
+            // Pick a random correct command that hasn't been used
+            let correctIndex;
+            do {
+                correctIndex = Math.floor(Math.random() * cmds.length);
+            } while (usedIndices.has(correctIndex));
+            usedIndices.add(correctIndex);
+            const correctCmd = cmds[correctIndex];
             
             // Generate options (1 correct, 3 wrong)
             const options = [correctCmd.name];
